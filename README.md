@@ -1,6 +1,7 @@
-# Antwaarps Veloke Slackbot
+# Antwaarps Veloke Slackbot :bike:
 Een prachtige slackbot zodat je nooit meer voor een leeg rek velokes komt te staan.
-*In opdracht van www.lunargravity.be*
+
+:full_moon: *In opdracht van www.lunargravity.be*
 
 # Settings
 Maak een .env file aan waarin je enkele zaken kunt instellen. Er is een .env.sample toegevoegd met voorbeeldsettings.
@@ -12,10 +13,10 @@ Api key die je kunt aanmaken op https://yourchannel.slack.com/apps/new/bot
 Jouw basis slack channel, waarin je op een bepaald moment een update kunt geven
 
 ### BASE_CAMP
-Naam van je bedrijf / hoofdplaats
+:office: Naam van je bedrijf / hoofdplaats
 
 ### BASE_STATIONS
-Stations rond je basecamp, gescheiden door een komma en spatie
+:bike: Stations rond je basecamp, gescheiden door een komma en spatie
 bv. Meir, Astrid, Groenplaats
 
 ### AUTO_TIMER
