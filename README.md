@@ -22,11 +22,11 @@ Instellen van een timer op een bepaald uur, bepaalde dag. Syntax: https://github
 vb. 00 45 17 * * 1-5 : Elke werkdag om 17:45
 
 # Commando's
-## Direct message
+### Direct message
 veloke + adres of naam van het station bv. veloke groenplaats
 veloke + basecamp bv. veloke Zara
 
-## Channel message
+### Channel message
 Mention de bot bv. @veloke veloke groenplaats
 
 # Custom replies
