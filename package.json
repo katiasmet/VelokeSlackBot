@@ -1,0 +1,40 @@
+{
+  "name": "veloke",
+  "version": "1.0.0",
+  "description": "Het Antwaarps Veloke veur oep Slack",
+  "author": "Katia Smet",
+  "keywords": [
+    "slack",
+    "bot",
+    "antwerp"
+  ],
+  "license": "ISC",
+  "scripts": {
+    "start": "node server.js",
+    "build": "npm run clean && npm run create:build-folders && npm run compile:es6",
+    "clean": "rm -rf build",
+    "compile:es6": "babel src server.js -d build --source-maps inline",
+    "create:build-folders": "mkdir -p build"
+  },
+  "main": "./server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/katiasmet/AntwaarpsVelokeBot"
+  },
+  "dependencies": {
+    "babel-cli": "^6.24.0",
+    "botkit": "^0.5.2",
+    "cron": "^1.2.1",
+    "dotenv": "^4.0.0",
+    "lodash": "^4.17.4",
+    "node-fetch": "^1.6.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-plugin-lodash": "^3.2.11",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-register": "^6.24.0",
+    "nodemon": "^1.11.0"
+  }
+}
