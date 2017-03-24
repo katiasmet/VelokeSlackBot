@@ -10,7 +10,7 @@ Maak een .env file aan waarin je enkele zaken kunt instellen. Er is een .env.sam
 Api key die je kunt aanmaken op https://yourchannel.slack.com/apps/new/bot
 
 ### MAIN_CHANNEL
-Jouw basis slack channel, waarin je op een bepaald moment een update kunt geven
+:speech_balloon: Jouw basis slack channel, waarin je op een bepaald moment een update kunt geven
 
 ### BASE_CAMP
 :office: Naam van je bedrijf / hoofdplaats
@@ -20,7 +20,7 @@ Jouw basis slack channel, waarin je op een bepaald moment een update kunt geven
 bv. Meir, Astrid, Groenplaats
 
 ### AUTO_TIMER
-Instellen van een timer op een bepaald uur, bepaalde dag. Syntax: https://github.com/kelektiv/node-cron
+:clock: Instellen van een timer op een bepaald uur, bepaalde dag. Syntax: https://github.com/kelektiv/node-cron
 vb. 00 45 17 * * 1-5 : Elke werkdag om 17:45
 
 # Commando's
@@ -31,8 +31,8 @@ veloke + basecamp bv. veloke Zara
 ### Channel message
 Mention de bot bv. @veloke veloke groenplaats
 
-# Custom replies
+# Custom replies :lipstick:
 Replies kun je aanpassen in ./src/settings/replies.js
 
-# Deployment
+# Deployment :rocket:
 Bot moet op een nodeserver draaien.
