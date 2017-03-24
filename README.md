@@ -1,5 +1,6 @@
 # Antwaarps Veloke Slackbot
 Een prachtige slackbot zodat je nooit meer voor een leeg rek velokes komt te staan.
+*In opdracht van www.lunargravity.be*
 
 # Settings
 Maak een .env file aan waarin je enkele zaken kunt instellen. Er is een .env.sample toegevoegd met voorbeeldsettings.
