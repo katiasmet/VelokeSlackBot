@@ -83,7 +83,7 @@ const getVelokes = (message, automatic = false) => {
       stations = json;
 
       let checks = handleChecks(message.text);
-      checks = remove(checks, function(check) {
+      checks = remove(checks, check => {
         return check !== 'velo' || check !== 'veloke';
       });
 
