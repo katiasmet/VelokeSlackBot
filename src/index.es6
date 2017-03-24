@@ -2,7 +2,7 @@
 
 import Botkit from 'botkit';
 import fetch from 'node-fetch';
-import {uniq, toLower} from 'lodash';
+import {uniq, toLower, remove, isEmpty} from 'lodash';
 import {CronJob} from 'cron';
 
 import {REPLY_hello,
@@ -81,13 +81,20 @@ const getVelokes = (message, automatic = false) => {
     })
     .then(function(json) {
       stations = json;
-      const checks = handleChecks(message.text);
+
+      let checks = handleChecks(message.text);
+      checks = remove(checks, function(check) {
+        return check !== 'velo' || check !== 'veloke';
+      });
+
       stations = handleSelectStations(checks);
       handleStations(message, automatic);
     });
 };
 
 const handleChecks = (input) => {
+
+
   if(input.includes(process.env.BASE_CAMP)) return process.env.BASE_STATIONS.split(', '); //check if the basecamp is called
   else return input.split(' ');
 }
@@ -113,7 +120,7 @@ const handleSelectStations = (checks) => {
 /* check if there are multiple stations, 1 station or no stations */
 const handleStations = (message, automatic) => {
 
-  if(stations) {
+  if(!isEmpty(stations)) {
     if(stations.length > 0) {
       handleReplies(stations, message, true, automatic);
     } else {

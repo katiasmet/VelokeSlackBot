@@ -23,10 +23,10 @@ export const REPLY_empty = (address) => {
   return `Tis weer van dat! Er zijn geen velokes meer in ${address}.`;
 };
 
-export const REPLY_no_stations = 'Er zijn daar geen stations. Probeer een ander adres.';
+export const REPLY_no_stations = 'Daar zijn geen stations. Probeer een ander adres.';
 
 export const REPLY_more_stations = (bikes, address) => {
-  return `${address}: ${bikes} velokes\n`;
+  return `${address}: \`${bikes}\` velokes\n`;
 };
 
 export default {
