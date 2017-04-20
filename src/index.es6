@@ -75,6 +75,9 @@ controller.hears(
 
 /* Handle Velokes Replies */
 const getVelokes = (message, automatic = false) => {
+  console.log('getVelokes');
+  console.log(message);
+
   fetch('https://www.velo-antwerpen.be/availability_map/getJsonObject')
     .then(function(res) {
       return res.json();
@@ -94,12 +97,15 @@ const getVelokes = (message, automatic = false) => {
 
 const handleChecks = (input) => {
 
+  console.log('handle checks');
 
   if(input.includes(process.env.BASE_CAMP)) return process.env.BASE_STATIONS.split(', '); //check if the basecamp is called
   else return input.split(' ');
 }
 
 const handleSelectStations = (checks) => {
+
+  console.log('handleSelectStations');
 
   const selectedStations = [];
 
@@ -120,6 +126,8 @@ const handleSelectStations = (checks) => {
 /* check if there are multiple stations, 1 station or no stations */
 const handleStations = (message, automatic) => {
 
+  console.log('handleStations');
+
   if(!isEmpty(stations)) {
     if(stations.length > 0) {
       handleReplies(stations, message, true, automatic);
@@ -136,31 +144,41 @@ const handleStations = (message, automatic) => {
 const handleReplies = (station, message, multipleStations = false, automatic) => {
   //automatic happens when a cron job is set
 
+  console.log('handle replies');
+
   if(multipleStations) {
 
     const stationsReply = handleMultipleStationsReply();
-    if(automatic) reply = stationsReply;
+    if(automatic) handleAutomaticReply(stationsReply);
     else bot.reply(message, stationsReply);
 
   } else if(station.bikes > 0) {
 
     if(station.bikes < 5) {
 
-      if(automatic) reply = REPLY_almost_empty(station.bikes, station.address);
+      if(automatic) handleAutomaticReply(REPLY_almost_empty(station.bikes, station.address));
       else bot.reply(message, REPLY_almost_empty(station.bikes, station.address) );
 
     } else {
 
-      if(automatic) reply = REPLY_full(station.bikes, station.address);
+      if(automatic) handleAutomaticReply(REPLY_full(station.bikes, station.address));
       else bot.reply(message, REPLY_full(station.bikes, station.address) );
     }
 
   } else {
 
-    if(automatic) reply = REPLY_empty(station.address);
+    if(automatic) handleAutomaticReply(REPLY_empty(station.address));
     else bot.reply(message, REPLY_empty(station.address) );
   }
 };
+
+const handleAutomaticReply = reply => {
+  console.log('handle automatic reply');
+  bot.say({
+    text: reply,
+    channel: process.env.MAIN_CHANNEL
+  });
+}
 
 const handleMultipleStationsReply = () => {
   const replies = [];
@@ -175,14 +193,12 @@ const handleMultipleStationsReply = () => {
 const handleCronJob = () => {
   if(process.env.AUTO_TIMER) {
 
+    console.log('cronjob');
+
     const job = new CronJob({
-      cronTime: process.env.AUTO_TIMER, //elke weekdag om 17:45
+      cronTime: process.env.AUTO_TIMER,
       onTick: function() {
-        getVelokes({text: process.env.BASE_CAMP}, true)
-        bot.say({
-          text: reply,
-          channel: process.env.MAIN_CHANNEL
-        });
+        getVelokes({text: process.env.BASE_CAMP}, true);
       },
       start: false,
       timeZone: 'Europe/Amsterdam'
