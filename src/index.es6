@@ -75,8 +75,6 @@ controller.hears(
 
 /* Handle Velokes Replies */
 const getVelokes = (message, automatic = false) => {
-  console.log('getVelokes');
-  console.log(message);
 
   fetch('https://www.velo-antwerpen.be/availability_map/getJsonObject')
     .then(function(res) {
@@ -97,15 +95,11 @@ const getVelokes = (message, automatic = false) => {
 
 const handleChecks = (input) => {
 
-  console.log('handle checks');
-
   if(input.includes(process.env.BASE_CAMP)) return process.env.BASE_STATIONS.split(', '); //check if the basecamp is called
   else return input.split(' ');
 }
 
 const handleSelectStations = (checks) => {
-
-  console.log('handleSelectStations');
 
   const selectedStations = [];
 
@@ -126,8 +120,6 @@ const handleSelectStations = (checks) => {
 /* check if there are multiple stations, 1 station or no stations */
 const handleStations = (message, automatic) => {
 
-  console.log('handleStations');
-
   if(!isEmpty(stations)) {
     if(stations.length > 0) {
       handleReplies(stations, message, true, automatic);
@@ -143,8 +135,6 @@ const handleStations = (message, automatic) => {
 /* handle answers */
 const handleReplies = (station, message, multipleStations = false, automatic) => {
   //automatic happens when a cron job is set
-
-  console.log('handle replies');
 
   if(multipleStations) {
 
@@ -173,7 +163,6 @@ const handleReplies = (station, message, multipleStations = false, automatic) =>
 };
 
 const handleAutomaticReply = reply => {
-  console.log('handle automatic reply');
   bot.say({
     text: reply,
     channel: process.env.MAIN_CHANNEL
@@ -192,8 +181,6 @@ const handleMultipleStationsReply = () => {
 /* Cron Job */
 const handleCronJob = () => {
   if(process.env.AUTO_TIMER) {
-
-    console.log('cronjob');
 
     const job = new CronJob({
       cronTime: process.env.AUTO_TIMER,
