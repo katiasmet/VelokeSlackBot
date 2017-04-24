@@ -12,7 +12,7 @@ export const REPLY_full = (bikes, address) => {
     `Geen stress! In het rek van ${address} zijn er nog \`${bikes}\` velokes.`
   ];
 
-  return replies[Math.floor(Math.rnd() * (replies.length - 0) + 0)];
+  return replies[Math.floor(Math.random() * (replies.length - 0) + 0)];
 }
 
 export const REPLY_almost_empty = (bikes, address) => {
