@@ -12,6 +12,7 @@
   "scripts": {
     "start": "node server.js",
     "build": "npm run clean && npm run create:build-folders && npm run compile:es6",
+    "serve": "forever .",
     "clean": "rm -rf build",
     "compile:es6": "babel src server.js -d build --source-maps inline",
     "create:build-folders": "mkdir -p build"
@@ -26,6 +27,7 @@
     "botkit": "^0.5.2",
     "cron": "^1.2.1",
     "dotenv": "^4.0.0",
+    "forever": "^0.15.3",
     "lodash": "^4.17.4",
     "node-fetch": "^1.6.3"
   },
