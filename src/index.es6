@@ -196,9 +196,11 @@ const handleCronJob = () => {
 
     job.start();
 
+    console.log('job status', job.running);
+
   }
 
-  console.log('job status', job.running);
+
 }
 
 handleCronJob();
