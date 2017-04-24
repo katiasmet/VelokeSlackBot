@@ -180,6 +180,9 @@ const handleMultipleStationsReply = () => {
 
 /* Cron Job */
 const handleCronJob = () => {
+  console.log('handle cron job');
+  console.log(process.env.AUTO_TIMER);
+
   if(process.env.AUTO_TIMER) {
 
     const job = new CronJob({
@@ -194,6 +197,8 @@ const handleCronJob = () => {
     job.start();
 
   }
+
+  console.log('job status', job.running);
 }
 
 handleCronJob();
