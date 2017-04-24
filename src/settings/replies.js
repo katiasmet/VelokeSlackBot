@@ -6,17 +6,17 @@ export const REPLY_hello_user = (name) => {
 export const REPLY_full = (bikes, address) => {
 
   const replies = [
-    `Op het gemakske, er zijn ${bikes} velokes in het rek van ${address}.`,
-    `Chill, er zijn ${bikes} velokes in het rek van ${address}.`,
-    `Amai, in het rek van ${address} zijn er nog ${bikes} velokes.`,
-    `Geen stress! In het rek van ${address} zijn er nog ${bikes} velokes.`
+    `Op het gemakske, er zijn \`${bikes}\` velokes in het rek van ${address}.`,
+    `Chill, er zijn \`${bikes}\` velokes in het rek van ${address}.`,
+    `Amai, in het rek van ${address} zijn er nog \`${bikes}\` velokes.`,
+    `Geen stress! In het rek van ${address} zijn er nog \`${bikes}\` velokes.`
   ];
 
   return replies[Math.floor(Math.rnd() * (replies.length - 0) + 0)];
 }
 
 export const REPLY_almost_empty = (bikes, address) => {
-  return `Haast u! Er zijn nog maar ${bikes} velokes in het rek van ${address}.`;
+  return `Haast u! Er zijn nog maar \`${bikes}\` velokes in het rek van ${address}.`;
 };
 
 export const REPLY_empty = (address) => {

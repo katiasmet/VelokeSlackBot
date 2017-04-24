@@ -13,6 +13,14 @@ import {REPLY_hello,
         REPLY_no_stations,
         REPLY_more_stations} from './settings/replies';
 
+import {DRUNK_REPLY_hello,
+        DRUNK_REPLY_hello_user,
+        DRUNK_REPLY_full,
+        DRUNK_REPLY_almost_empty,
+        DRUNK_REPLY_empty,
+        DRUNK_REPLY_no_stations,
+        DRUNK_REPLY_more_stations} from './settings/drunk_replies';
+
 const controller = Botkit.slackbot({
     debug: true,
 });
@@ -22,14 +30,18 @@ const bot = controller.spawn({
 }).startRTM();
 
 let stations, reply;
+let drunkFriday = false;
 
 controller.hears(
   ['hello', 'hi', 'hallo', 'yo', 'ieps', 'hoi', 'hey', 'allo'],
   'direct_message,direct_mention,mention',
   (bot, message) => {
     controller.storage.users.get(message.user, function(err, user) {
-      if (user && user.name) { bot.reply(message, REPLY_hello_user(user.name));
-      } else { bot.reply(message, REPLY_hello); }
+      if (user && user.name) {
+        drunkFriday ? bot.reply(message, DRUNK_REPLY_hello_user(user.name)) : bot.reply(message, REPLY_hello_user(user.name));
+      } else {
+        drunkFriday ? bot.reply(message, DRUNK_REPLY_hello) : bot.reply(message, REPLY_hello);
+      }
     });
   }
 );
@@ -121,13 +133,10 @@ const handleSelectStations = (checks) => {
 const handleStations = (message, automatic) => {
 
   if(!isEmpty(stations)) {
-    if(stations.length > 0) {
-      handleReplies(stations, message, true, automatic);
-    } else {
-      handleReplies(stations, message, automatic);
-    }
+    if(stations.length > 1) handleReplies(stations, message, true, automatic);
+    else handleReplies(stations[0], message, automatic);
   } else {
-    bot.reply(message, REPLY_no_stations);
+    drunkFriday ? bot.reply(message, DRUNK_REPLY_no_stations) : bot.reply(message, REPLY_no_stations);
   }
 
 };
@@ -146,19 +155,28 @@ const handleReplies = (station, message, multipleStations = false, automatic) =>
 
     if(station.bikes < 5) {
 
-      if(automatic) handleAutomaticReply(REPLY_almost_empty(station.bikes, station.address));
-      else bot.reply(message, REPLY_almost_empty(station.bikes, station.address) );
+      if(automatic) {
+        drunkFriday ? handleAutomaticReply(DRUNK_REPLY_almost_empty(station.bikes, station.address)) : handleAutomaticReply(REPLY_almost_empty(station.bikes, station.address));
+      } else {
+        drunkFriday ? bot.reply(message, DRUNK_REPLY_almost_empty(station.bikes, station.address)) : bot.reply(message, REPLY_almost_empty(station.bikes, station.address));
+      };
 
     } else {
 
-      if(automatic) handleAutomaticReply(REPLY_full(station.bikes, station.address));
-      else bot.reply(message, REPLY_full(station.bikes, station.address) );
+      if(automatic) {
+        drunkFriday ? handleAutomaticReply(DRUNK_REPLY_full(station.bikes, station.address)) : handleAutomaticReply(REPLY_full(station.bikes, station.address));
+      } else {
+        drunkFriday ? bot.reply(message, DRUNK_REPLY_full(station.bikes, station.address)) : bot.reply(message, REPLY_full(station.bikes, station.address));
+      };
     }
 
   } else {
 
-    if(automatic) handleAutomaticReply(REPLY_empty(station.address));
-    else bot.reply(message, REPLY_empty(station.address) );
+    if(automatic) {
+      drunkFriday ? handleAutomaticReply(DRUNK_REPLY_empty(station.address)) : handleAutomaticReply(REPLY_empty(station.address));
+    } else {
+      drunkFriday ? bot.reply(message, DRUNK_REPLY_empty(station.address)) : bot.reply(message, REPLY_empty(station.address));
+    };
   }
 };
 
@@ -172,15 +190,21 @@ const handleAutomaticReply = reply => {
 const handleMultipleStationsReply = () => {
   const replies = [];
   stations.forEach(station => {
-    replies.push(REPLY_more_stations(station.bikes, station.address));
+    drunkFriday ? replies.push(DRUNK_REPLY_more_stations(station.bikes, station.address)) : replies.push(REPLY_more_stations(station.bikes, station.address));
   });
 
   return "".concat(...replies);
 }
 
 /* Cron Job */
-const handleCronJob = () => {
+const handleCronJobs = () => {
 
+  handleDailyUpdate();
+  handleDrunkFriday();
+
+}
+
+const handleDailyUpdate = () => {
   if(process.env.AUTO_TIMER) {
 
     const job = new CronJob({
@@ -195,8 +219,20 @@ const handleCronJob = () => {
     job.start();
 
   }
+}
 
+const handleDrunkFriday = () => {
+  const job = new CronJob({
+    cronTime: '* * * * * 5',
+    onTick: function() {
+      drunkFriday = true;
+    },
+    start: false,
+    timeZone: 'Europe/Amsterdam'
+  });
+
+  job.start();
 
 }
 
-handleCronJob();
+handleCronJobs();
