@@ -27,7 +27,7 @@ vb. 00 45 17 * * 1-5 : Elke werkdag om 17:45
 :clock3: Instellen van een checker tussen een bepaald tijdstip. Als de base_stations leeg zijn, zal er automatisch een melding worden gegeven. Syntax: https://github.com/kelektiv/node-cron <br />
 vb. 00 30-59 17 * * 1-5 : Elke werkdag tussen 17:30 en 17:59 om de minuut
 
-# Commando's
+# :point_up_2: Commando's
 ### Direct message
 :speech_balloon: veloke + adres of naam van het station bv. veloke groenplaats <br />
 :speech_balloon: veloke + basecamp bv. veloke Zara
