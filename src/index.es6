@@ -86,7 +86,7 @@ controller.hears(
 );
 
 /* Handle Velokes Replies */
-const getVelokes = (message, automatic = false) => {
+const getVelokes = (message, automatic = false, checkEmpty = false) => {
 
   fetch('https://www.velo-antwerpen.be/availability_map/getJsonObject')
     .then(function(res) {
@@ -101,7 +101,7 @@ const getVelokes = (message, automatic = false) => {
       });
 
       stations = handleSelectStations(checks);
-      handleStations(message, automatic);
+      handleStations(message, automatic, checkEmpty);
     });
 };
 
@@ -130,11 +130,14 @@ const handleSelectStations = (checks) => {
 };
 
 /* check if there are multiple stations, 1 station or no stations */
-const handleStations = (message, automatic) => {
+const handleStations = (message, automatic, checkEmpty) => {
 
   if(!isEmpty(stations)) {
-    if(stations.length > 1) handleReplies(stations, message, true, automatic);
-    else handleReplies(stations[0], message, automatic);
+
+    if(checkEmpty) { handleCheckStations(stations, message, automatic) } //handles function to check if a station is empty
+    else if(stations.length > 1) { handleReplies(stations, message, true, automatic); }
+    else { handleReplies(stations[0], message, automatic) }
+
   } else {
     drunkFriday ? bot.reply(message, DRUNK_REPLY_no_stations) : bot.reply(message, REPLY_no_stations);
   }
@@ -147,6 +150,7 @@ const handleReplies = (station, message, multipleStations = false, automatic) =>
 
   if(multipleStations) {
 
+    /* handle multiple stations */
     const stationsReply = handleMultipleStationsReply();
     if(automatic) handleAutomaticReply(stationsReply);
     else bot.reply(message, stationsReply);
@@ -155,6 +159,7 @@ const handleReplies = (station, message, multipleStations = false, automatic) =>
 
     if(station.bikes < 5) {
 
+      /* handle almost empty station */
       if(automatic) {
         drunkFriday ? handleAutomaticReply(DRUNK_REPLY_almost_empty(station.bikes, station.address)) : handleAutomaticReply(REPLY_almost_empty(station.bikes, station.address));
       } else {
@@ -163,6 +168,7 @@ const handleReplies = (station, message, multipleStations = false, automatic) =>
 
     } else {
 
+      /* handle station */
       if(automatic) {
         drunkFriday ? handleAutomaticReply(DRUNK_REPLY_full(station.bikes, station.address)) : handleAutomaticReply(REPLY_full(station.bikes, station.address));
       } else {
@@ -172,6 +178,7 @@ const handleReplies = (station, message, multipleStations = false, automatic) =>
 
   } else {
 
+    /* handle empty station */
     if(automatic) {
       drunkFriday ? handleAutomaticReply(DRUNK_REPLY_empty(station.address)) : handleAutomaticReply(REPLY_empty(station.address));
     } else {
@@ -185,7 +192,20 @@ const handleAutomaticReply = reply => {
     text: reply,
     channel: process.env.MAIN_CHANNEL
   });
-}
+};
+
+const handleCheckStations = (stations, message, automatic) => {
+  /* Checks if one of your base stations is empty, if so send a message */
+  let emptyStation = false;
+
+  stations.forEach(station => {
+    if(station.bikes === 0) emptyStation = true;
+  });
+
+  if(emptyStation) {
+    (stations.length > 1) ? handleReplies(stations, message, true, automatic) : handleReplies(stations, message, false, automatic);
+  }
+};
 
 const handleMultipleStationsReply = () => {
   const replies = [];
@@ -194,17 +214,20 @@ const handleMultipleStationsReply = () => {
   });
 
   return "".concat(...replies);
-}
+};
 
 /* Cron Job */
 const handleCronJobs = () => {
 
   handleDailyUpdate();
   handleDrunkFriday();
+  handleChecker();
 
-}
+};
 
 const handleDailyUpdate = () => {
+  /* update on a certain time  */
+
   if(process.env.AUTO_TIMER) {
 
     const job = new CronJob({
@@ -219,9 +242,11 @@ const handleDailyUpdate = () => {
     job.start();
 
   }
-}
+};
 
 const handleDrunkFriday = () => {
+  /* drunk messages on friday */
+
   const job = new CronJob({
     cronTime: '* * * * * 5',
     onTick: function() {
@@ -233,6 +258,24 @@ const handleDrunkFriday = () => {
 
   job.start();
 
-}
+};
+
+const handleChecker = () => {
+  /* checks between certain time if the base stations are emtpy */
+  if(process.env.AUTO_CHECKER) {
+
+    const job = new CronJob({
+      cronTime: process.env.AUTO_CHECKER,
+      onTick: function() {
+        getVelokes({text: process.env.BASE_CAMP}, true, true);
+      },
+      start: false,
+      timeZone: 'Europe/Amsterdam'
+    });
+
+    job.start();
+
+  }
+};
 
 handleCronJobs();
