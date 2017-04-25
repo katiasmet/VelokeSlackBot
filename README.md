@@ -41,5 +41,4 @@ Drunk replies op vrijdag kun je aanpassen in ./src/settings/drunk_replies.js
 
 # Deployment :rocket:
 Bot moet op een nodeserver draaien. Om de bot op te starten en te laten runnen, kun je forever gebruiken. https://github.com/foreverjs/forever <br />
-run het commando: <br />
-`forever start server.js`
+run het commando: `forever start server.js`
