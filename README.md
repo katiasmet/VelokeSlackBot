@@ -23,6 +23,10 @@ bv. Meir, Astrid, Groenplaats
 :clock: Instellen van een timer op een bepaald uur, bepaalde dag. Syntax: https://github.com/kelektiv/node-cron
 vb. 00 45 17 * * 1-5 : Elke werkdag om 17:45
 
+### AUTO_CHECKER
+:clock: Instellen van een checker tussen een bepaald tijdstip. Als de base_stations leeg zijn, zal er automatisch een melding worden gegeven. Syntax: https://github.com/kelektiv/node-cron
+vb. 00 30-59 17 * * 1-5 : Elke werkdag tussen 17:30 en 17:59 om de minuut
+
 # Commando's
 ### Direct message
 veloke + adres of naam van het station bv. veloke groenplaats
@@ -33,6 +37,9 @@ Mention de bot bv. @veloke veloke groenplaats
 
 # Custom replies :lipstick:
 Replies kun je aanpassen in ./src/settings/replies.js
+Drunk replies op vrijdag kun je aanpassen in ./src/settings/drunk_replies.js
 
 # Deployment :rocket:
-Bot moet op een nodeserver draaien.
+Bot moet op een nodeserver draaien. Om de bot op te starten en te laten runnen, kun je forever gebruiken. https://github.com/foreverjs/forever
+run het commando:
+`forever start server.js`
