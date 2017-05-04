@@ -221,6 +221,7 @@ const handleCronJobs = () => {
 
   handleDailyUpdate();
   handleDrunkFriday();
+  handleUnsetDrunkFriday();
   handleChecker();
 
 };
@@ -248,9 +249,24 @@ const handleDrunkFriday = () => {
   /* drunk messages on friday */
 
   const job = new CronJob({
-    cronTime: '* * * * * 5',
+    cronTime: '00 00 16 * * 5',
     onTick: function() {
       drunkFriday = true;
+    },
+    start: false,
+    timeZone: 'Europe/Amsterdam'
+  });
+
+  job.start();
+
+};
+
+const handleUnsetDrunkFriday = () => {
+
+  const job = new CronJob({
+    cronTime: '00 00 9 * * 1',
+    onTick: function() {
+      drunkFriday = false;
     },
     start: false,
     timeZone: 'Europe/Amsterdam'
