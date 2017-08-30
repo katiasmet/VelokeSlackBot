@@ -7,7 +7,7 @@ export const DRUNK_REPLY_full = (bikes, address) => {
 
   const replies = [
     `Jupi jupi jupi! Ah de velokes? Denk dat er nog \`${bikes}\` zijn in ${address}.`,
-    `Waren het nu \`${bikes}\` of \`${bikes * 2}\` velokes?`,
+    `Waren het nu \`${bikes}\` of \`${bikes * 2}\` velokes? Nee, het zijn er \`${bikes}\` in ${address}.`,
     `Wacht ze, oei tga wat moeilijk. Ik moet mij effe zetten. Ja eum \`${bikes}\`. * blurp *`,
   ];
 
@@ -29,7 +29,7 @@ export const DRUNK_REPLY_more_stations = (bikes, address) => {
   const replies = [
     `${address}: \`${bikes}\` velokes, zie ik dat nu dubbel?\n`,
     `Jupi jupi jupi! Ah de velokes? Denk dat er nog \`${bikes}\` zijn in ${address}.\n`,
-    `Waren het er nu \`${bikes}\` of \`${bikes * 2}\`\n`,
+    `Waren het er nu \`${bikes}\` of \`${bikes * 2}\`? Nee, het zijn er \`${bikes}\` in ${address}.\n`,
     `Wacht ze, oei tga wat moeilijk. Ik moet mij effe zetten. Ja eum \`${bikes}\` in ${address}. * blurp *\n`,
     `Ga jij al naar huis? TGIF! Maar om naar dat ander feestje te geraken staan er nog \`${bikes}\` in het rek van ${address}.\n`
   ];
